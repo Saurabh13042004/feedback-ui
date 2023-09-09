@@ -1,7 +1,7 @@
 import React from 'react'
 import FeedbackItem from './FeedbackItem'
 import PropTypes from 'prop-types'
-function FeedbackList({ feedback }) {
+function FeedbackList({ feedback , handleDelete }) {
     if (!feedback.length) {
         return <h3>No Feedback Yet</h3>
     }
@@ -10,7 +10,8 @@ function FeedbackList({ feedback }) {
             {feedback.map((item) => (
                 <FeedbackItem
                     key={item.id}
-                    item = {item}
+                    item={item}
+                    handleDelete = {handleDelete}
                 />
             ))}
         </div>
