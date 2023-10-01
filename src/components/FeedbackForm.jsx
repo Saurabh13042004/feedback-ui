@@ -24,21 +24,19 @@ function FeedbackForm() {
     },[feedbackEdit])
 
     const handleTextChange = (e) => {
-
-        if(text === ''){
-            setBtnDisabled(true);
-            setMessage(null);
+        const newText = e.target.value;
+        if (!newText) {
+          setBtnDisabled(true);
+          setMessage(null);
+        } else if (newText.trim().length <= 10) {
+          setMessage('Text must be at least 10 characters');
+          setBtnDisabled(true);
+        } else {
+          setMessage(null);
+          setBtnDisabled(false);
         }
-        else if(text !==' ' && text.trim().length <= 10){
-            setMessage('Text must be at least 10 characters')
-            setBtnDisabled(true);
-        }
-        else{
-            setMessage(null);
-            setBtnDisabled(false);
-        }
-        setText(e.target.value);
-    }
+        setText(newText);
+      }
     const handleSubmit = (e) => {
         e.preventDefault();
         if(text.trim().length > 10){
@@ -46,7 +44,7 @@ function FeedbackForm() {
                 text,
                 rating,
             }
-            if(feedbackEdit){
+            if(feedbackEdit.edit === true){
                 updateFeedback(feedbackEdit.item.id,newFeedback);
             }
             else{
