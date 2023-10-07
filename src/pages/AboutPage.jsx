@@ -6,12 +6,25 @@ function AboutPage() {
     <Card>
     <div className="about">
       <h1>About this Project</h1>
-      <p>This is a react app to leave feedback for a product or service.</p>
-      <p>Version : 1.0.0</p>
-
       <p>
-        <Link to="/">Back to Home</Link>
-      </p>
+    Welcome to <strong>"Feedback UI,"</strong> a cutting-edge React application designed for leaving valuable feedback about products and services.
+  </p>
+  <p><strong>Version:</strong> 1.0.0</p>
+  <p>
+    This project leverages several key technologies:
+  </p>
+  <ul>
+    <li><strong>React.js:</strong> The core framework driving our user-friendly interface.</li>
+    <li><strong>Context API:</strong> Empowering efficient state management for seamless data sharing.</li>
+    <li><strong>React Icons:</strong> Enhancing visual appeal and interactivity with icon components.</li>
+    <li><strong>React Router DOM:</strong> Enabling smooth navigation and routing within the application.</li>
+    <li><strong>json-server:</strong> Used for simulating a REST API to handle data posting, updating, and deleting.</li>
+  </ul>
+  <p>
+    <Link to="/">
+      Back to Home
+    </Link>
+  </p>
     </div>
     </Card>
   )
