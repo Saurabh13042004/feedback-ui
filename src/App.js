@@ -10,6 +10,8 @@ import AboutPage from './pages/AboutPage'
 import { FeedbackProvider } from './context/FeedbackContext'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import AboutIconLink from './components/AboutIconLink'
+import Login from './pages/LoginPage'
+import Signup from './pages/Signup'
 function App() {
 
     return (
@@ -18,8 +20,10 @@ function App() {
             <Header />
             <div className='container'>
                 <Routes>
+                    <Route path='/login' element={<Login />} />
+                    <Route path='/' element={<Signup />} />
                     <Route
-                        path='/'
+                        path='/home'
                         element={
                             <>
                                 <FeedbackForm  />

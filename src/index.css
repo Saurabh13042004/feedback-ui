@@ -22,6 +22,14 @@ ul {
   margin: auto;
   padding: 0 20px;
 }
+.mx-2{
+  margin-left: 2rem;
+  margin-right: 2rem;
+}
+
+.m-auto{
+  margin: auto;
+}
 
 header {
   height: 70px;
@@ -255,4 +263,13 @@ input:focus {
   .input-group input {
     width: 80%;
   }
+}
+
+
+.login input{
+  width: 100%;
+  border: 1px solid #ccc;
+  padding: 18px;
+  border-radius: 5px;
+  margin: 10px 0;
 }

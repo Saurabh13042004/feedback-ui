@@ -1,76 +1,134 @@
-import { createContext, useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { createContext, useState, useEffect } from 'react';
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  query,
+  where,
+  deleteDoc,
+  updateDoc,
+  getDocs,
+  doc,
+} from 'firebase/firestore';
+import { auth } from '../firebase'; // Import your Firebase configuration
+import { onAuthStateChanged } from 'firebase/auth';
+
 const FeedbackContext = createContext();
 
 export const FeedbackProvider = ({ children }) => {
-  const [isLoading,setIsLoading] = useState(true);
-
+  const [isLoading, setIsLoading] = useState(true);
   const [feedbackEdit, setFeedbackEdit] = useState({
     item: {},
-    edit: false
-  })
-
-
-
-  // eslint-disable-next-line no-unused-vars
+    edit: false,
+  });
   const [feedback, setFeedback] = useState([]);
 
-  useEffect(()=>{
-    fetchFeedback();
-  },[])
+  const firestore = getFirestore(); // Initialize Firestore
 
-  const fetchFeedback = async () =>{
-    const response = await fetch('/feedback?_sort=id&_order=desc');
-    const data = await response.json();
-    setFeedback(data);
-    setIsLoading(false);
+  // Function to fetch feedback data associated with the current user
+  const fetchUserFeedback = async () => {
+    const user = auth.currentUser;
+    if (user) {
+      const userUid = user.uid;
+      console.log('User UID:', userUid);
 
-  }
+      const userFeedbackCollection = collection(firestore, 'feedback');
+      const userFeedbackQuery = query(
+        userFeedbackCollection,
+        where('userId', '==', userUid)
+      );
+      console.log('Query:', userFeedbackQuery);
 
-  const deleteFeedback = async (id) => {
-    if (window.confirm("Are you sure you want to delete this feedback?")) {
-      await fetch(`/feedback/${id}`,{method:'DELETE'})
-      console.log("App", id);
-      setFeedback(feedback.filter((item) => item.id !== id));
+      try {
+        const userFeedbackSnapshot = await getDocs(userFeedbackQuery);
+        const userFeedbackData = userFeedbackSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        console.log('Fetched Feedback Data:', userFeedbackData);
+
+        setFeedback(userFeedbackData);
+        setIsLoading(false);
+      } catch (error) {
+        console.log('Error in fetching user-specific feedback data', error);
+        setIsLoading(false);
+      }
     }
   };
-  const addFeedback = async (newFeedback) => {
-    const response = await fetch('/feedback',{
-      method:'POST',
-      headers:{
-        'Content-type':'application/json'
-      },
-      body: JSON.stringify(newFeedback),
-    })
 
-    const data = await response.json();
-    console.log(data);
-    setFeedback([data, ...feedback]);
+  // Fetch feedback data on component mount
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is signed in.
+        console.log('User is signed in:', user);
+        fetchUserFeedback(); // Fetch user-specific feedback when signed in.
+      } else {
+        // User is signed out.
+        console.log('User is signed out');
+        setFeedback([]); // Clear feedback when signed out.
+        setIsLoading(false);
+      }
+    });
+  
+    return unsubscribe; // Unsubscribe when the component unmounts.
+  }, []);
+  
+  
+
+  const deleteFeedback = async (id) => {
+    if (window.confirm('Are you sure you want to delete this feedback?')) {
+      try {
+        await deleteDoc(doc(firestore, 'feedback', id));
+        setFeedback(feedback.filter((item) => item.id !== id));
+      } catch (error) {
+        console.log('Error in deleting feedback', error);
+      }
+    }
   };
+
+  const addFeedback = async (newFeedback) => {
+    const user = auth.currentUser;
+    if (user) {
+      const userUid = user.uid;
+
+      try {
+        const userFeedbackRef = collection(firestore, 'feedback');
+        const docRef = await addDoc(userFeedbackRef, {
+          ...newFeedback,
+          userId: userUid,
+        });
+
+        const addedFeedback = { id: docRef.id, ...newFeedback };
+        setFeedback([addedFeedback, ...feedback]);
+      } catch (error) {
+        console.log('Error in adding feedback', error);
+      }
+    }
+  };
+
   const editFeedback = (item) => {
     setFeedbackEdit({
       item,
-      edit: true
-    })
-  }
+      edit: true,
+    });
+  };
+
   const updateFeedback = async (id, updItem) => {
-    const response = await fetch(`/feedback/${id}`,{
-      method:'PUT',
-      headers:{
-        'Content-type':'application/json'
+    try {
+      await updateDoc(doc(firestore, 'feedback', id), updItem);
+      setFeedback(feedback.map((item) => (item.id === id ? updItem : item)));
+      setFeedbackEdit({
+        item: {},
+        edit: false,
+      });
+    } catch (error) {
+      console.log('Error in updating feedback', error);
+    }
+  };
 
-      },
-      body:JSON.stringify(updItem)
-    })
-
-    const data = await response.json();
-
-    setFeedback(feedback.map((item) => (item.id === id ? { ...item, ...data } : item)))
-
-    setFeedbackEdit({
-      item: {},
-      edit: false,
-    })
-  }
   return (
     <FeedbackContext.Provider
       value={{
