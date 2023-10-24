@@ -26,7 +26,10 @@ ul {
   margin-left: 2rem;
   margin-right: 2rem;
 }
-
+.my-2{
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
 .m-auto{
   margin: auto;
 }
