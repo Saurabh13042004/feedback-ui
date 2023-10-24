@@ -1,6 +1,6 @@
-# Feedback UI
+# Feedback UI with Firebase Integration
 
-A user-friendly React application designed to provide an accessible platform for leaving valuable feedback about products and services.
+A user-friendly React application designed to provide an accessible platform for leaving valuable feedback about products and services, now integrated with Firebase for data storage and user authentication.
 
 ## Table of Contents
 
@@ -18,7 +18,7 @@ A user-friendly React application designed to provide an accessible platform for
 
 ### About Feedback UI
 
-"Feedback UI" is a React application designed to streamline the process of providing feedback for products and services. It offers an accessible and user-friendly interface, efficient state management, and interactive icons for an enhanced feedback experience.
+"Feedback UI" is a React application designed to streamline the process of providing feedback for products and services. It offers an accessible and user-friendly interface, efficient state management, and interactive icons for an enhanced feedback experience. The project is now integrated with Firebase, a powerful platform for data storage and user authentication.
 
 ### Screenshot
 
@@ -26,7 +26,8 @@ A user-friendly React application designed to provide an accessible platform for
 
 ### Links
 
-- Repository: [GitHub Repo](#) (Add your GitHub repository URL here)
+- Repository: [GitHub Repo](#) ([Add your GitHub repository URL here](https://github.com/Saurabh13042004/feedback-ui/))
+- Firebase: [Firebase Console](#) (Add your Firebase project URL here)
 
 ## Technologies Used
 
@@ -34,11 +35,14 @@ A user-friendly React application designed to provide an accessible platform for
 - Context API
 - React Icons
 - React Router DOM
-- json-server
+- Firebase (Authentication, Firestore)
+- CSS
 
 ## What I Learned
 
-During the development of "Feedback UI," I gained valuable insights and learned several key concepts and skills:
+During the development of "Feedback UI" and its integration with Firebase, I gained valuable insights and learned several key concepts and skills:
+
+- **Firebase Integration**: I successfully integrated Firebase into the project, allowing for secure data storage and user authentication.
 
 - **React.js Proficiency**: This project provided an opportunity to strengthen my proficiency in React.js, mastering the core concepts of component-based development and state management.
 
@@ -47,8 +51,6 @@ During the development of "Feedback UI," I gained valuable insights and learned 
 - **Icon Integration**: Integrating React Icons enhanced the visual appeal and interactivity of the user interface, adding a dynamic touch to the feedback experience.
 
 - **Routing with React Router DOM**: I explored and implemented smooth navigation and routing within the application using React Router DOM, creating a seamless user journey.
-
-- **Mock REST API with json-server**: The use of json-server to simulate a REST API for data posting, updating, and deleting was a valuable learning experience, allowing me to interact with data in a controlled environment.
 
 - **CSS Styling and Responsiveness**: I honed my skills in CSS styling and responsiveness, ensuring a visually appealing and user-friendly design across various devices.
 
@@ -60,8 +62,11 @@ To run the project locally, follow these steps:
 
 1. Clone this repository.
 2. Install the required dependencies with `npm install`.
-3. Start the development server with `npm run dev`.
-4. Visit `http://localhost:3000` in your web browser to explore and use "Feedback UI."
+3. Set up Firebase:
+   - Create a Firebase project in the [Firebase Console](#).
+   - Update your Firebase configuration in the project.
+4. Start the development server with `npm run start`.
+5. Visit `http://localhost:3000` in your web browser to explore and use "Feedback UI."
 
 ## Contributing
 
